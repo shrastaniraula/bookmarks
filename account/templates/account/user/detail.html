@@ -1,10 +1,17 @@
 {% extends "base.html" %}
+
+{% load static %}
 {% load thumbnail %}
 {% block title %}{{ user.get_full_name }}{% endblock %}
 {% block content %}
 <h1>{{ user.get_full_name }}</h1>
 <div class="profile-info">
+    {% if user.profile.photo %}
     <img src="{% thumbnail user.profile.photo 180x180 %}" class="user-detail">
+    {% else %}
+    <img src="{% static 'img/no_image_user.jpg' %}" alt="{{ user.get_full_name }}" class="user-detail" height="180px"
+        width="180px">
+    {% endif %}
 </div>
 {% with total_followers=user.followers.count %}
 <span class="count">
@@ -20,7 +27,11 @@
     {% endif %}
 </a>
 <div id="image-list" class="image-container">
+    {% if user.images_created.all %}
     {% include "images/image/list_images.html" with images=user.images_created.all %}
+    {% else %}
+    This user hasn't bookmarked any images yet.
+    {% endif %}
 </div>
 {% endwith %}
 {% endblock %}

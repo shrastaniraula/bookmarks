@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-<!-- {load thumbnail} -->
+{% load thumbnail %}
+{% load static %}
 {% block title %}{{ image.title }}{% endblock %}
 
 
@@ -28,12 +29,12 @@
 </div>
 <div class="image-likes">
     {% for user in image.users_like.all %}
-    <div>
-        {% if user.profile.photo %}
-        <img src="{{ user.profile.photo.url }}">
-        {% endif %}
-        <p>{{ user.first_name }}</p>
-    </div>
+    {% if user.profile.photo %}
+    <img src="{% thumbnail user.profile.photo 80x80 %}">
+    {% else %}
+    <img src="{% static 'img/no_image_user.jpg' %}" alt="{{ user.get_full_name }}">
+    {% endif %}
+    <p>{{ user.first_name }}</p>
     {% empty %}
     Nobody likes this image yet.
     {% endfor %}

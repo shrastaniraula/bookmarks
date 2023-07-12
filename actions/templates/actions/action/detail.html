@@ -1,3 +1,4 @@
+{%load static%}
 {% load thumbnail %}
 {% with user=action.user profile=action.user.profile %}
 <div class="action">
@@ -7,6 +8,15 @@
         <a href="{{ user.get_absolute_url }}">
             <img src="{{ im.url }}" alt="{{ user.get_full_name }}" class="item-img">
         </a>
+        {% else %}
+        <!-- {% thumbnail "static img/no_image_user.jpg" "80x80" crop="100%" as im %}
+        <a href="{{ user.get_absolute_url }}">
+            <img src="{{ im.url }}" alt="{{ user.get_full_name }}" class="item-img">
+        </a> -->
+        <a href="{{ user.get_absolute_url }}">
+            <img src="{% static 'img/no_image_user.jpg' %}" alt="{{ user.get_full_name }}" class="item-img"
+                height="80px" width="80px">
+        </a>
         {% endif %}
         {% if action.target %}
         {% with target=action.target %}
@@ -14,6 +24,11 @@
         {% thumbnail target.image "80x80" crop="100%" as im %}
         <a href="{{ target.get_absolute_url }}">
             <img src="{{ im.url }}" class="item-img">
+        </a>
+        {% else %}
+        <a href="{{ user.get_absolute_url }}">
+            <img src="{% static 'img/no_image_user.jpg' %}" alt="{{ user.get_full_name }}" class="item-img"
+                height="80px" width="80px">
         </a>
         {% endif %}
         {% endwith %}
